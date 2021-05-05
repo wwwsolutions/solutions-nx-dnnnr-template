@@ -40,12 +40,20 @@ That way we can run npm custom script via `npm` utility container.
 docker-compose run --rm npm install
 ```
 
-#### Execute scripts
+#### Utilize build scripts
 
 ```yaml
 docker-compose run --rm npm run build:apps
 docker-compose run --rm npm run build:nest-api
 docker-compose run --rm npm run build:react-client
+```
+
+#### Utilize deploy scripts
+
+```yaml
+docker-compose run --rm npm run deploy:apps
+docker-compose run --rm npm run deploy:nest-api
+docker-compose run --rm npm run deploy:react-client
 ```
 
 ---

@@ -100,7 +100,7 @@
           "options": {
             "commands": [
               "nx build react-client",
-              "docker-compose run --rm npm run build:nest-api && docker build -f ./apps/react-client/react-client.prod.dockerfile . -t react-client"
+              "docker build -f ./tools/docker/react-client.prod.dockerfile . -t react-client"
             ],
             "parallel": false
           }
