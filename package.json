@@ -24,14 +24,15 @@
     "dep-graph": "nx dep-graph",
     "help": "nx help",
     "workspace-generator": "nx workspace-generator",
-    "serve:nest-api": "nx serve nest-api",
-    "serve:react-client": "nx serve react-client",
-    "serve:apps": "nx run-many --target=serve --projects=nest-api,react-client --parallel",
     "build:apps": "nx run-many --target=build --projects=nest-api,react-client --parallel",
     "build:nest-api": "nx build nest-api",
     "build:react-client": "nx build react-client",
+    "serve:nest-api": "nx serve nest-api",
+    "serve:react-client": "nx serve react-client",
+    "serve:apps": "nx run-many --target=serve --projects=nest-api,react-client --parallel",
     "deploy:nest-api": "nx deploy nest-api",
-    "deploy:react-client": "nx deploy react-client"
+    "deploy:react-client": "nx deploy react-client",
+    "deploy:apps": "nx run-many --target=deploy --projects=nest-api,react-client --parallel"
   },
   "private": true,
   "devDependencies": {
