@@ -16,7 +16,7 @@ This command also mirrors package.json from host to container.
 
 ```yaml
 # command 1
-docker build -f Dockerfile.util -t npm .
+docker build -f ./tools/docker/npm.util.dockerfile -t npm .
 ```
 
 Install project dependencies.
@@ -27,11 +27,25 @@ Run `npm` utility container and execute commands
 docker run -it -v ${pwd}:/app npm install
 ```
 
-### Utilize `docker-compose`
+### Manage the project in (Ubuntu) Linux
+
+There is no need for Node installation in Ubuntu therefore the way to
+run Node applications in this scenario is to create a light 'utility'
+Docker image with a Node installation.
+That way we can run npm custom script via `npm` utility container.
+
+#### Build `npm` utility image and install dependencies
 
 ```yaml
-# use single command
 docker-compose run --rm npm install
+```
+
+#### Execute scripts
+
+```yaml
+docker-compose run --rm npm run build:apps
+docker-compose run --rm npm run build:nest-api
+docker-compose run --rm npm run build:react-client
 ```
 
 ---

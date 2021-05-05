@@ -1,11 +1,23 @@
 version: '3.9'
 
 services:
+  nest-api:
+    image: nest-api
+    ports:
+      - '8081:3333'
+
+  react-client:
+    image: react-client
+    environment:
+      - API_PATH=http://nest-api:3333
+    ports:
+      - '8080:3334'
+
   npm:
     container_name: npm
     build:
       context: .
-      dockerfile: Dockerfile.util
+      dockerfile: tools/docker/npm.util.dockerfile
     stdin_open: true
     tty: true
     volumes:
