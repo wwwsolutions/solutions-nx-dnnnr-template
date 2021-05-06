@@ -34,11 +34,11 @@ run Node applications in this scenario is to create a light 'utility'
 Docker image with a Node installation.
 That way we can run npm custom script via `npm` utility container.
 
-<!-- #### Build `npm` utility image
+#### Build `npm` utility image
 
 ```yaml
 docker build -f ./tools/docker/npm.util.dockerfile -t npm .
-``` -->
+```
 
 #### Build `npm` utility image and install dependencies
 

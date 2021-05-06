@@ -104,6 +104,13 @@
             ],
             "parallel": false
           }
+        },
+        "docker_deploy": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": ["nx build react-client"],
+            "parallel": false
+          }
         }
       }
     },
