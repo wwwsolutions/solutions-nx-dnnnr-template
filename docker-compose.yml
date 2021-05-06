@@ -22,3 +22,16 @@ services:
     tty: true
     volumes:
       - ./:/app
+
+  sample:
+    container_name: sample
+    build:
+      context: .
+      dockerfile: tools/docker/react-client.dev.dockerfile
+    volumes:
+      - '.:/app'
+      - '/app/node_modules'
+    ports:
+      - 3001:3000
+    environment:
+      - CHOKIDAR_USEPOLLING=true

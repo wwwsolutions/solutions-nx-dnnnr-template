@@ -50,14 +50,17 @@ docker-compose run --rm npm install
 
 ```yaml
 # nest-api
+npm run build:nest-api
 nx build nest-api
 docker-compose run --rm npm run build:nest-api # WSL/Ubuntu
 
 # react-client
+npm run build:react-client
 nx build react-client
 docker-compose run --rm npm run build:react-client # WSL/Ubuntu
 
 # apps
+npm run build:apps
 nx run-many --target=build --projects=nest-api,react-client --parallel
 docker-compose run --rm npm run build:apps # WSL/Ubuntu
 ```
@@ -66,14 +69,17 @@ docker-compose run --rm npm run build:apps # WSL/Ubuntu
 
 ```yaml
 # nest-api
+npm run serve:nest-api
 nx serve nest-api
 docker-compose run --rm npm run serve:nest-api # WSL/Ubuntu
 
 # react-client
+npm run serve:react-client
 nx serve react-client
 docker-compose run --rm npm run serve:react-client # WSL/Ubuntu
 
 # apps
+npm run serve:apps
 nx run-many --target=serve --projects=nest-api,react-client --parallel
 docker-compose run --rm npm run serve:apps # WSL/Ubuntu
 ```
@@ -82,16 +88,19 @@ docker-compose run --rm npm run serve:apps # WSL/Ubuntu
 
 ```yaml
 # nest-api
+npm run deploy:nest-api
 nx deploy nest-api
 docker build -f ./tools/docker/nest-api.prod.dockerfile . -t nest-api
 docker-compose run --rm npm run deploy:nest-api # WSL/Ubuntu
 
 # react-client
+npm run deploy:react-client
 nx deploy react-client
 docker build -f ./tools/docker/react-client.prod.dockerfile . -t react-client
 docker-compose run --rm npm run deploy:react-client # WSL/Ubuntu
 
 # apps
+npm run deploy:apps
 nx run-many --target=deploy --projects=nest-api,react-client --parallel
 docker-compose run --rm npm run deploy:apps # WSL/Ubuntu
 ```
