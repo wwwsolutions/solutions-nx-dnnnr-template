@@ -5,6 +5,13 @@ export $(shell sed 's/=.*//' .env)
 test:
 	@echo $$NODE_ENV $$BASE_IMAGE $$PATH_DOCKER_CONFIGS	$$PORT_API_PRIVATE
 
+api:
+	docker build \
+	--force-rm \
+	-f Dockerfile \
+	-t test-api \
+	.
+
 # BUILD `NPM` UTIL IMAGE
 build-util-npm:
 	docker build \

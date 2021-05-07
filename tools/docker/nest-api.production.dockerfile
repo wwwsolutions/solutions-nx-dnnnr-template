@@ -1,6 +1,7 @@
 ARG ARG_BASE_IMAGE
+
 # FROM node:14.16.0-alpine3.13
-FROM ${ARG_BASE_IMAGE}
+FROM ${ARG_BASE_IMAGE} AS production
 RUN echo "${ARG_BASE_IMAGE}"
 
 RUN addgroup app && adduser -S -G app app
@@ -22,3 +23,6 @@ RUN npm install --only=production --silent
 # dependencies that nestjs needs
 RUN npm install reflect-metadata tslib rxjs @nestjs/platform-express
 CMD node ./main.js
+
+# ARG ARG_NODE_ENV=production
+# ENV NODE_ENV=${ARG_NODE_ENV}
