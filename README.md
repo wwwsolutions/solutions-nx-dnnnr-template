@@ -9,7 +9,7 @@
 
 ## Running Node Programs on Linux via Docker container
 
-### Utilize `docker build` command
+<!-- ### Utilize `docker build` command
 
 Create 'npm' image from custom Dockerfile file.
 This command also mirrors package.json from host to container.
@@ -25,7 +25,7 @@ Run `npm` utility container and execute commands
 ```yaml
 # command 2
 docker run -it -v ${pwd}:/app npm install
-```
+``` -->
 
 ### Manage the project in (Ubuntu) Linux
 
@@ -34,59 +34,78 @@ run Node applications in this scenario is to create a light 'utility'
 Docker image with a Node installation.
 That way we can run npm custom script via `npm` utility container.
 
+#### Build `npm` utility image
+
+```yaml
+docker build -f ./tools/docker/npm.util.dockerfile -t npm .
+```
+
 #### Build `npm` utility image and install dependencies
 
 ```yaml
 docker-compose run --rm npm install
 ```
 
-#### Execute scripts
+#### Utilize build scripts
 
 ```yaml
-docker-compose run --rm npm run build:apps
-docker-compose run --rm npm run build:nest-api
-docker-compose run --rm npm run build:react-client
+# nest-api
+npm run build:nest-api
+nx build nest-api
+docker-compose run --rm npm run build:nest-api # WSL/Ubuntu
+
+# react-client
+npm run build:react-client
+nx build react-client
+docker-compose run --rm npm run build:react-client # WSL/Ubuntu
+
+# apps
+npm run build:apps
+nx run-many --target=build --projects=nest-api,react-client --parallel
+docker-compose run --rm npm run build:apps # WSL/Ubuntu
+```
+
+#### Utilize serve scripts
+
+```yaml
+# nest-api
+npm run serve:nest-api
+nx serve nest-api
+docker-compose run --rm npm run serve:nest-api # WSL/Ubuntu
+
+# react-client
+npm run serve:react-client
+nx serve react-client
+docker-compose run --rm npm run serve:react-client # WSL/Ubuntu
+
+# apps
+npm run serve:apps
+nx run-many --target=serve --projects=nest-api,react-client --parallel
+docker-compose run --rm npm run serve:apps # WSL/Ubuntu
+```
+
+#### Utilize deploy scripts
+
+```yaml
+# nest-api
+npm run deploy:nest-api
+nx deploy nest-api
+docker build -f ./tools/docker/nest-api.prod.dockerfile . -t nest-api
+docker-compose run --rm npm run deploy:nest-api # WSL/Ubuntu
+
+# react-client
+npm run deploy:react-client
+nx deploy react-client
+docker build -f ./tools/docker/react-client.prod.dockerfile . -t react-client
+docker-compose run --rm npm run deploy:react-client # WSL/Ubuntu
+
+# apps
+npm run deploy:apps
+nx run-many --target=deploy --projects=nest-api,react-client --parallel
+docker-compose run --rm npm run deploy:apps # WSL/Ubuntu
 ```
 
 ---
-
-### Docker useful commands
-
-#### Execute a command in a running container
-
-```yaml
-docker exec <service> <bash_command>
-```
-
-#### Remove all unused data
-
-```yaml
-docker system prune
-```
-
-#### Kill all run containers
-
-```yaml
-docker kill $(docker ps -q)
-```
-
-#### Stop all run containers
-
-```yaml
-docker stop $(docker ps -q)
-```
-
-#### Remove all images
-
-```yaml
-docker rmi $(docker images -q)
-```
-
-#### Remove all containers
-
-```yaml
-docker rm $(docker container ps -q)
-```
 
 #### SOURCES
 
