@@ -1,39 +1,63 @@
-version: '3.9'
+# version: '3.7'
+
+# services:
+#   main:
+#     container_name: main
+#     build:
+#       context: .
+#       target: development
+#     volumes:
+#       - .:/usr/src/app
+#       - /usr/src/app/node_modules
+#     ports:
+#       - ${SERVER_PORT}:${SERVER_PORT}
+#       - 9229:9229
+#     command: npm run serve:nest-api
+#     env_file:
+#       - .env
+#     networks:
+#       - webnet
+#     depends_on:
+#       - redis
+#       - postgres
+#   redis:
+#     container_name: redis
+#     image: redis:5
+#     networks:
+#       - webnet
+#   postgres:
+#     container_name: postgres
+#     image: postgres:12
+#     networks:
+#       - webnet
+#     environment:
+#       POSTGRES_PASSWORD: ${DB_PASSWORD}
+#       POSTGRES_USER: ${DB_USERNAME}
+#       POSTGRES_DB: ${DB_DATABASE_NAME}
+#       PG_DATA: /var/lib/postgresql/data
+#     ports:
+#       - 5432:5432
+#     volumes:
+#       - pgdata:/var/lib/postgresql/data
+# networks:
+#   webnet:
+# volumes:
+#   pgdata:
+
+version: '3.4'
 
 services:
-  nest-api:
-    container_name: nest-api
-    image: 'nest-api:${NODE_ENV}'
+  web:
+    image: youtubepolyvsmono
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    environment:
+      NODE_ENV: production
+      # PORT: 3333
     ports:
-      - '8081:${PORT_API_PRIVATE}'
-
-  # react-client:
-  #   image: 'react-client:${TAG}'
-  #   environment:
-  #     - API_PATH=http://nest-api:3333
-  #   ports:
-  #     - '8080:3334'
-
-  npm:
-    container_name: npm
-    image: npm:util
-    # build:
-    #   context: .
-    #   dockerfile: tools/docker/npm.util.dockerfile
-    stdin_open: true
-    tty: true
+      - 3333:3333
+    command: nx serve nest-api
     volumes:
-      - ./:/app
-
-  # sample:
-  #   container_name: sample
-  #   build:
-  #     context: .
-  #     dockerfile: tools/docker/react-client.dev.dockerfile
-  #   volumes:
-  #     - '.:/app'
-  #     - '/app/node_modules'
-  #   ports:
-  #     - 3001:3000
-  #   environment:
-  #     - CHOKIDAR_USEPOLLING=true
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
