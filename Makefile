@@ -2,50 +2,58 @@
 include .env
 export $(shell sed 's/=.*//' .env)
 
-# test:
-# 	@echo NODE_ENV=$$NODE_ENV
-
 test:
-	@echo docker build --build-arg ARG_MESSAGE=$$NODE_ENV -f ./tools/docker/nest-api.$$NODE_ENV.dockerfile -t nest-api:$$NODE_ENV .	
+	@echo $$NODE_ENV $$BASE_IMAGE $$PATH_DOCKER_CONFIGS	$$PORT_API_PRIVATE
 
-
+# BUILD `NPM` UTIL IMAGE
 build-util-npm:
-	docker build -f ./tools/docker/npm.util.dockerfile --force-rm . -t npm:util
+	docker build \
+	-f $$PATH_DOCKER_CONFIGS/npm.util.dockerfile \
+	--force-rm \
+	. \
+	-t npm:util
 
-# build-util-npm:
-# 	docker-compose build --force-rm npm
-
+# INSTALL AND MOUNT PROJECT DEPENDENCIES
 install:
 	docker-compose run --rm npm install
 
-build-api:
+# BUILD IMAGE
+# DEPEND ON ENV VARIABLES: NODE_ENV, BASE_IMAGE 
+build-nest-api:
 	docker build \
 	--force-rm \
 	--build-arg ARG_MESSAGE=$$NODE_ENV \
 	--build-arg ARG_BASE_IMAGE=$$BASE_IMAGE	\
-	--build-arg ARG_PORT=$$PORT \
-	-f ./tools/docker/nest-api.$$NODE_ENV.dockerfile \
+	--build-arg ARG_PORT=$$PORT_API_PRIVATE \
+	-f $$PATH_DOCKER_CONFIGS/nest-api.$$NODE_ENV.dockerfile \
 	-t nest-api:$$NODE_ENV \
 	.
+
+# RUN SERVICE
+up-nest-api:
+	docker-compose up \
+	--remove-orphans \
+	-d \
+	nest-api
 
 
 #############################################################
 
-build-dev-nest-api:
-	docker build -f ./tools/docker/nest-api.dockerfile -t nest-api:dev --target development .
+# build-dev-nest-api:
+# 	docker build -f ./tools/docker/nest-api.dockerfile -t nest-api:dev --target development .
 
 # build-dev-nest-api:
 # 	docker build -f ./tools/docker/nest-api.dev.dockerfile . -t nest-api:dev
 
 
-build-prod-nest-api:
-	docker build -f ./tools/docker/nest-api.dockerfile -t nest-api:prod --target production .
+# build-prod-nest-api:
+# 	docker build -f ./tools/docker/nest-api.dockerfile -t nest-api:prod --target production .
 
 # build-prod-nest-api:
 # 	docker build -f ./tools/docker/nest-api.prod.dockerfile . -t nest-api:prod
 
-up-prod-nest-api:
-	docker-compose up --remove-orphans -d nest-api
+# up-prod-nest-api:
+# 	docker-compose up --remove-orphans -d nest-api
 
 #############################################################
 

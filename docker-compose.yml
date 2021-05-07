@@ -5,7 +5,7 @@ services:
     container_name: nest-api
     image: 'nest-api:${NODE_ENV}'
     ports:
-      - '8081:3333'
+      - '8081:${PORT_API_PRIVATE}'
 
   # react-client:
   #   image: 'react-client:${TAG}'

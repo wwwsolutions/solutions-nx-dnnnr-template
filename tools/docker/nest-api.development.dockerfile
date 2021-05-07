@@ -1,4 +1,7 @@
-FROM node:14.16.0-alpine3.13
+ARG ARG_BASE_IMAGE
+# FROM node:14.16.0-alpine3.13
+FROM ${ARG_BASE_IMAGE}
+RUN echo "${ARG_BASE_IMAGE}"
 
 RUN addgroup app && adduser -S -G app app
 USER app
@@ -12,15 +15,22 @@ WORKDIR /app
 ENV PATH /app/node_modules/.bin:$PATH
 
 # install app dependencies
-COPY package.json ./
-COPY package-lock.json ./
+# COPY package.json ./
+# COPY package-lock.json ./
+COPY ["package.json", "package-lock.json", "nx.json", "./"]
 RUN npm install --silent
-# RUN npm install -g concurrently
 
-# ENV PORT=3333
-# EXPOSE ${PORT}
+ARG ARG_PORT
+ENV ENV_PORT=$ARG_PORT
+EXPOSE ${ENV_PORT}
+RUN echo "Port $ENV_PORT has been exposed."
 
 # add app
-COPY . ./
+# COPY . ./
+COPY ./apps/nest-api/src ./
 
-CMD ["concurrently","npm:serve:nest-api"]
+# CMD ["concurrently","npm:serve:nest-api"]
+
+# RUN nx build nest-api
+
+CMD nx serve nest-api
