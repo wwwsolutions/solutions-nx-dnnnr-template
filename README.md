@@ -1,4 +1,6 @@
-# solutions-nx-dnnnr-template
+# Template
+
+`solutions-nx-dnnnr-template`
 
 - nx monorepo
 - docker (multi-stage builds)
